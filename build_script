@@ -13,20 +13,20 @@ rm ./output_files/*
 
 printf "\n${magenta}Assembling individual PRG banks...${reset}\n\n"
 cd source_files
-../Ophis/ophis.exe PRG_Bank000.asm ../output_files/PRG_Bank000.bin
-../Ophis/ophis.exe PRG_Bank001.asm ../output_files/PRG_Bank001.bin
-../Ophis/ophis.exe PRG_Bank002.asm ../output_files/PRG_Bank002.bin
-../Ophis/ophis.exe PRG_Bank003.asm ../output_files/PRG_Bank003.bin
-../Ophis/ophis.exe PRG_Bank004.asm ../output_files/PRG_Bank004.bin
-../Ophis/ophis.exe PRG_Bank005.asm ../output_files/PRG_Bank005.bin
-../Ophis/ophis.exe PRG_Bank006.asm ../output_files/PRG_Bank006.bin
-../Ophis/ophis.exe PRG_Bank007.asm ../output_files/PRG_Bank007.bin
-../Ophis/ophis.exe PRG_Bank008.asm ../output_files/PRG_Bank008.bin
-../Ophis/ophis.exe PRG_Bank009.asm ../output_files/PRG_Bank009.bin
-../Ophis/ophis.exe PRG_Bank00A.asm ../output_files/PRG_Bank00A.bin
-../Ophis/ophis.exe PRG_Bank00B.asm ../output_files/PRG_Bank00B.bin
-../Ophis/ophis.exe PRG_Bank00C.asm ../output_files/PRG_Bank00C.bin
-../Ophis/ophis.exe PRG_BankDEF.asm ../output_files/PRG_BankDEF.bin
+ophis PRG_Bank000.asm -o ../output_files/PRG_Bank000.bin
+ophis PRG_Bank001.asm -o ../output_files/PRG_Bank001.bin
+ophis PRG_Bank002.asm -o ../output_files/PRG_Bank002.bin
+ophis PRG_Bank003.asm -o ../output_files/PRG_Bank003.bin
+ophis PRG_Bank004.asm -o ../output_files/PRG_Bank004.bin
+ophis PRG_Bank005.asm -o ../output_files/PRG_Bank005.bin
+ophis PRG_Bank006.asm -o ../output_files/PRG_Bank006.bin
+ophis PRG_Bank007.asm -o ../output_files/PRG_Bank007.bin
+ophis PRG_Bank008.asm -o ../output_files/PRG_Bank008.bin
+ophis PRG_Bank009.asm -o ../output_files/PRG_Bank009.bin
+ophis PRG_Bank00A.asm -o ../output_files/PRG_Bank00A.bin
+ophis PRG_Bank00B.asm -o ../output_files/PRG_Bank00B.bin
+ophis PRG_Bank00C.asm -o ../output_files/PRG_Bank00C.bin
+ophis PRG_BankDEF.asm -o ../output_files/PRG_BankDEF.bin
 cd ..
 
 printf "\n${magenta}Calculating checksums of individual PRG banks...${reset}\n\n"
@@ -184,55 +184,55 @@ else
     printf "${red}Fail${reset}\n\n"
 fi
 
-#printf "${magenta}Combining Assembled banks into a ROM...${reset}\n"
-#cat original_files/header.bin \
-#	output_files/PRG_Bank000.bin \
-#	output_files/PRG_Bank001.bin \
-#	output_files/PRG_Bank002.bin \
-#	output_files/PRG_Bank003.bin \
-#	output_files/PRG_Bank004.bin \
-#	output_files/PRG_Bank005.bin \
-#	output_files/PRG_Bank006.bin \
-#	output_files/PRG_Bank007.bin \
-#	output_files/PRG_Bank008.bin \
-#	output_files/PRG_Bank009.bin \
-#	output_files/PRG_Bank00A.bin \
-#	output_files/PRG_Bank00B.bin \
-#	output_files/PRG_Bank00C.bin \
-#	output_files/PRG_BankDEF.bin \
-#	original_files/CHR_Bank000.bin \
-#	original_files/CHR_Bank001.bin \
-#	original_files/CHR_Bank002.bin \
-#	original_files/CHR_Bank003.bin \
-#	original_files/CHR_Bank004.bin \
-#	original_files/CHR_Bank005.bin \
-#	original_files/CHR_Bank006.bin \
-#	original_files/CHR_Bank007.bin \
-#	original_files/CHR_Bank008.bin \
-#	original_files/CHR_Bank009.bin \
-#	original_files/CHR_Bank00A.bin \
-#	original_files/CHR_Bank00B.bin \
-#	original_files/CHR_Bank00C.bin \
-#	original_files/CHR_Bank00D.bin \
-#	original_files/CHR_Bank00E.bin \
-#	original_files/CHR_Bank00F.bin \
-#	original_files/CHR_Bank010.bin \
-#	original_files/CHR_Bank011.bin \
-#	original_files/CHR_Bank012.bin \
-#	original_files/CHR_Bank013.bin \
-#	original_files/CHR_Bank014.bin \
-#	original_files/CHR_Bank015.bin \
-#	original_files/CHR_Bank016.bin \
-#	original_files/CHR_Bank017.bin \
-#	original_files/CHR_Bank018.bin \
-#	original_files/CHR_Bank019.bin \
-#	original_files/CHR_Bank01A.bin \
-#	original_files/CHR_Bank01B.bin \
-#	original_files/CHR_Bank01C.bin \
-#	original_files/CHR_Bank01D.bin \
-#	original_files/CHR_Bank01E.bin \
-#	original_files/CHR_Bank01F.bin \
-#	> assembled_mike_tysons_punchout.nes
+printf "${magenta}Combining Assembled banks into a ROM...${reset}\n"
+cat original_files/Header.bin \
+	output_files/PRG_Bank000.bin \
+	output_files/PRG_Bank001.bin \
+	output_files/PRG_Bank002.bin \
+	output_files/PRG_Bank003.bin \
+	output_files/PRG_Bank004.bin \
+	output_files/PRG_Bank005.bin \
+	output_files/PRG_Bank006.bin \
+	output_files/PRG_Bank007.bin \
+	output_files/PRG_Bank008.bin \
+	output_files/PRG_Bank009.bin \
+	output_files/PRG_Bank00A.bin \
+	output_files/PRG_Bank00B.bin \
+	output_files/PRG_Bank00C.bin \
+	output_files/PRG_BankDEF.bin \
+	original_files/CHR_Bank000.bin \
+	original_files/CHR_Bank001.bin \
+	original_files/CHR_Bank002.bin \
+	original_files/CHR_Bank003.bin \
+	original_files/CHR_Bank004.bin \
+	original_files/CHR_Bank005.bin \
+	original_files/CHR_Bank006.bin \
+	original_files/CHR_Bank007.bin \
+	original_files/CHR_Bank008.bin \
+	original_files/CHR_Bank009.bin \
+	original_files/CHR_Bank00A.bin \
+	original_files/CHR_Bank00B.bin \
+	original_files/CHR_Bank00C.bin \
+	original_files/CHR_Bank00D.bin \
+	original_files/CHR_Bank00E.bin \
+	original_files/CHR_Bank00F.bin \
+	original_files/CHR_Bank010.bin \
+	original_files/CHR_Bank011.bin \
+	original_files/CHR_Bank012.bin \
+	original_files/CHR_Bank013.bin \
+	original_files/CHR_Bank014.bin \
+	original_files/CHR_Bank015.bin \
+	original_files/CHR_Bank016.bin \
+	original_files/CHR_Bank017.bin \
+	original_files/CHR_Bank018.bin \
+	original_files/CHR_Bank019.bin \
+	original_files/CHR_Bank01A.bin \
+	original_files/CHR_Bank01B.bin \
+	original_files/CHR_Bank01C.bin \
+	original_files/CHR_Bank01D.bin \
+	original_files/CHR_Bank01E.bin \
+	original_files/CHR_Bank01F.bin \
+	> assembled_mike_tysons_punchout.nes
 
 #printf "\n${magenta}Combining original banks and header into a ROM...${reset}\n\n"
 #cat original_files/Header.bin      \
