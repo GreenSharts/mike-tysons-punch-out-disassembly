@@ -1,2 +1,5 @@
 *.nes
 *.deb
+node_modules/
+videos/
+node_modules/
