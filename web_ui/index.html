@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NES Punchout - JS Port</title>
+  <style>
+    body {
+      background-color: #222;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    canvas {
+      width: 512px;
+      height: 480px;
+      background-color: #000;
+      border: 4px solid #444;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      image-rendering: pixelated; /* Essential for sharp 8-bit graphics */
+    }
+    .controls {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .key {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #444;
+      border-radius: 4px;
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>NES Punchout - Web Port</h1>
+  <canvas id="game-canvas" width="256" height="240"></canvas>
+  <div class="controls">
+    <p>Controls: <span class="key">Arrows</span> Move <span class="key">Z / X</span> Punch</p>
+  </div>
+
+  <script type="module">
+    import { macFrames, chrBank01A, chrBank01B, pal_mac } from './sprite_data.js';
+
+    const canvas = document.getElementById("game-canvas");
+    const ctx = canvas.getContext("2d");
+
+    const imgData = ctx.createImageData(256, 240);
+    const buf = new Uint32Array(imgData.data.buffer);
+
+    const macPalette32 = pal_mac.map(c => {
+      return (c[3] << 24) | (c[2] << 16) | (c[1] << 8) | c[0];
+    });
+
+    function drawTile(buf, xPos, yPos, tileIndex, palette32, bank) {
+      if (tileIndex >= bank.length) return;
+      const tile = bank[tileIndex];
+      for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+          const colorIdx = tile[y][x];
+          if (colorIdx !== 0) {
+            const pxX = xPos + x;
+            const pxY = yPos + y;
+            if (pxX >= 0 && pxX < 256 && pxY >= 0 && pxY < 240) {
+              buf[pxY * 256 + pxX] = palette32[colorIdx];
+            }
+          }
+        }
+      }
+    }
+
+    // Little Mac's tiles are actually in CHR_Bank01B!
+    // Bank 01A has rings, UI, etc. 01B has Mac and opponent sprites.
+    function drawMacFrame(buf, xStart, yStart, frameIdx) {
+      const frame = macFrames.find(f => f.frame_index === frameIdx);
+      if (!frame) return;
+
+      const grid = frame.grid;
+      for (let y = 0; y < frame.height; y++) {
+        for (let x = 0; x < frame.width; x++) {
+          const tileIdx = grid[y][x];
+          if (tileIdx !== 255) {
+             drawTile(buf, xStart + x * 8, yStart + y * 8, tileIdx, macPalette32, chrBank01B);
+          }
+        }
+      }
+    }
+
+    const game = {
+      x: 112,
+      y: 160,
+      animFrame: 0,
+      animTimer: 0,
+      state: 'IDLE'
+    };
+
+    let lastTime = 0;
+    function gameLoop(time) {
+      buf.fill(0xFF000000);
+
+      for(let i = 160 * 256; i < 240 * 256; i++) {
+         buf[i] = 0xFF444444;
+      }
+
+      if (time - lastTime > 150) {
+        game.animFrame = (game.animFrame + 1) % 4;
+        lastTime = time;
+      }
+
+      drawMacFrame(buf, game.x, game.y, game.animFrame);
+
+      ctx.putImageData(imgData, 0, 0);
+      requestAnimationFrame(gameLoop);
+    }
+
+    requestAnimationFrame(gameLoop);
+
+  </script>
+</body>
+</html>
